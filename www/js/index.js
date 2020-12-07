@@ -7,7 +7,14 @@ function onDeviceReady() {
 
     // on initialise Framework7
 	var f7App = new Framework7({
-		root: '#app'
+		root: '#app',
+		routes : [
+			{
+				name: 'details',
+				path: '/detail/:id',
+				url: './pages/details.html'
+			}
+		]
 	})
 	// on crée la vue principale de Framewor7
 	var mainView = f7App.views.create('.view-main');
@@ -45,12 +52,16 @@ function onDeviceReady() {
 				var newItem = $('#output li.template').clone();
 				
 				// on lui enlève la classe 'template', puisqu'il ne s'agit plus du modèle 
-				// et on l'affiche (on va contre le style display:none du modèle
+				// et on l'affiche (on va contre le style display:none du modèle)
 				newItem.removeClass('template').show();
 				
 				// on donne un contenu (le nom du lieu d'intérêt) à l'élément de liste clôné 
-				// puis on l'injecte dans la liste
 				$('.item-inner', newItem).text(this.name);
+				
+				// on place l'id Foursquare du lieu dans l'attribut data-id
+				newItem.attr('data-id', this.id);
+				
+				// on injecte le clône dans la listview de la page
 				newItem.appendTo('#output ul');
 				
 			})
@@ -63,5 +74,107 @@ function onDeviceReady() {
 	function geolocationError(error){
 		alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
 	}
+	
+	// écouteur d'évènement (click sur un bouton de la ListView)
+	$(document).on('click', '#output li', function(){
+		// alert('coucou');
+		
+		// on récupère la valeur de l'attribut data-id
+		// id représente donc l'identifiant Foursquare du lieu d'intérêt
+		var id = $(this).attr('data-id');
+		// console.log(id);
+		
+		// on navigue vers la page de détail en lui passant l'id Foursquare
+		// dans un paramètre nommé id
+		mainView.router.navigate({
+			name: 'details',
+			params: {id: id}
+		});	
+	})
+	
+	// lorsque la page de détail a été initialisée...
+	// (page:init est un évènement F7)
+	$(document).on('page:init', '.page[data-name="details"]', function(e){
+		// ici, le DOM de la page de détail est prêt
+		
+		// on récupère la page (voir aide Framework7)
+		var page = e.detail;
+		
+		// on récupère le paramètre id transmis à la page
+		// (voir aide Framework7)
+		var id = page.route.params.id;
+		
+		// on récupère l'élément racine de la page de détail
+		// (voir aide de Framework7)
+		var pageDom = page.el;
+		
+		// console.log(id);
+		
+		// on construit la requête de type Detail vers l'API Foursquare
+		var apiUrl = 'https://api.foursquare.com/v2/venues/' + id +'?client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&v=20191112';
+		
+		// on lance la requête asynchrone
+		$.getJSON(apiUrl, function(data){
+			// lorsque la réponse est reçue...
+			
+			// on récupère le nom du lieu
+			var name = data.response.venue.name;
+			// on l'injecte dans la navbar
+			$('.navbar .title').text(name);
+			
+			// on récupère le numéro de téléphone
+			if(data.response.venue.contact.phone !== undefined){
+				var phone = data.response.venue.contact.phone;
+				// on l'injecte dans un élément de classe 'tel'
+				$('.page-content .tel', pageDom).html(phone);
+			}
+			else{
+				$('.page-content .tel', pageDom).text('numéro non connu');
+			}
+			
+			// on récupère l'adresse formatée (il s'agit d'un tableau)
+			if(data.response.venue.location.formattedAddress !== undefined){
+				var formattedAddress = data.response.venue.location.formattedAddress;
+				
+				// on crée un string qui représente l'adresse
+				var l =formattedAddress.length;
+				var address = '';
+				for(var i=0; i<l; i++){
+					address = address + formattedAddress[i] + '<br>';
+				}
+				
+				// on l'injecte dans un élément de classe 'address'
+				$('.page-content .address', pageDom).html(address);
+			}
+			else{
+				$('.page-content .address', pageDom).text('adresse non connue');
+			}
+			
+			// si les heures d'ouverture sont connues
+			if(data.response.venue.hours != undefined){
+				var timeframes = data.response.venue.hours.timeframes;
+				var l = data.response.venue.hours.timeframes.length;
+				var hours = '';
+				for(var i=0; i<l; i++){
+					hours += timeframes[i].days + ': ';
+					for(var j=0; j<timeframes[i].open.length; j++){
+						if(j == timeframes[i].open.length-1){
+							hours += timeframes[i].open[j].renderedTime;
+						}
+						else{
+							hours += timeframes[i].open[j].renderedTime + '; ';
+						}
+					}
+					hours += '<br/>';
+				};
+				$('.page-content .hours', pageDom).html(hours);
+			}
+			else{
+				$('.page-content .hours', pageDom).text("heures d'ouverture non connues");
+			}
+			
+		})
+		
+	})
 	
 }
