@@ -8,7 +8,7 @@
     <!-- Color theme for statusbar (Android only) -->
     <meta name="theme-color" content="#2196f3">
     <!-- Your app title -->
-    <title>Cordova/Framework7 Starter</title>
+    <title>Pizza Near You</title>
     <!-- Path to Framework7 Library Bundle CSS -->
     <link rel="stylesheet" href="lib/framework7/css/framework7-bundle.min.css">
     <!-- Path to your custom app styles-->
@@ -33,19 +33,20 @@
 
           <!-- Scrollable page content -->
           <div class="page-content">
-            <div id="output">
-              <div id="searching">Searching...</div>
-              <div class="list list-dividers list-outline">
-                <ul>
-                  <li class="template" style="display:none;">
-                    <a href="#" class="item-link">
-                      <div class="item-content">
-                        <div class="item-inner"></div>
-                      </div>
-                    </a>
-                  </li>
-                </ul>
-              </div>
+            <div class="block">
+                <div id="output">
+                  <div id="searching">Searching...</div>
+                  <div class="list list-strong list-dividers list-outline">
+                    <ul>
+                      <!-- élément à cloner en JS -->
+                      <li class="template" style="display:none" data-id="">
+                        <a href="#" class="item-link item-content">
+                          <div class="item-inner"></div>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
             </div>
           </div>
         </div>

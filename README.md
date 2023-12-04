@@ -12,3 +12,7 @@ Utilisation de l'API OpenStreetMaps
 
 ## branche step1
 Géolocalisation, appel Ajax à l'API Tomtom, liste des pizzérias les plus proches
+
+## branche step2
+App master/detail
+Adresse et numéro de téléphone dans la page de détail
