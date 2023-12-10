@@ -11,6 +11,8 @@
     <title>Pizza Near You</title>
     <!-- Path to Framework7 Library Bundle CSS -->
     <link rel="stylesheet" href="lib/framework7/css/framework7-bundle.min.css">
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <!-- Path to your custom app styles-->
     <link rel="stylesheet" href="css/index.css">
   </head>
@@ -31,22 +33,35 @@
             </div>
           </div>
 
+          <!-- Tabbar -->
+          <div class="toolbar tabbar toolbar-bottom">
+            <div class="toolbar-inner">
+              <a href="#tab-list" class="tab-link tab-link-active">Liste</a>
+              <a href="#tab-map" class="tab-link">Carte</a>
+            </div>
+          </div>
+
           <!-- Scrollable page content -->
-          <div class="page-content">
-            <div class="block">
-                <div id="output">
-                  <div id="searching">Searching...</div>
-                  <div class="list list-strong list-dividers list-outline">
-                    <ul>
-                      <!-- élément à cloner en JS -->
-                      <li class="template" style="display:none" data-id="">
-                        <a href="#" class="item-link item-content">
-                          <div class="item-inner"></div>
-                        </a>
-                      </li>
-                    </ul>
+          <div class="tabs">
+            <div class="page-content tab tab-active" id="tab-list">
+              <div class="block">
+                  <div id="output">
+                    <div id="searching">Searching...</div>
+                    <div class="list list-strong list-dividers list-outline">
+                      <ul>
+                        <!-- élément à cloner en JS -->
+                        <li class="template" style="display:none" data-id="">
+                          <a href="#" class="item-link item-content">
+                            <div class="item-inner"></div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
+              </div>
+            </div>
+            <div class="page-content tab" id="tab-map">
+                <div id="mapid"></div>
             </div>
           </div>
         </div>
@@ -59,6 +74,8 @@
     <script type="text/javascript" src="lib/framework7/js/framework7-bundle.min.js"></script>
     <!-- jQuery -->
     <script type="text/javascript" src="lib/jquery/jquery-3.7.1.min.js"></script>
+    <!-- Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <!-- Path to your app js-->
     <script type="text/javascript" src="js/index.js"></script>
   </body>
