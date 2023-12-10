@@ -16,3 +16,9 @@ Géolocalisation, appel Ajax à l'API Tomtom, liste des pizzérias les plus proc
 ## branche step2
 App master/detail
 Adresse et numéro de téléphone dans la page de détail
+
+## branche step3
+Affichage des pizzérias sur une carte (OpenStreetMaps + Leafletjs)
+
+## branche step4
+Refactorisation du code (objet SEARCHAPP)
