@@ -57,7 +57,7 @@ function onDeviceReady() {
 				// point terminal de l'API poiSearch de Tomtom
 				var apiUrl = 'https://api.tomtom.com/search/2/poiSearch/pizza.json?lat='
 							  + _searchApp.latitude + '&lon=' + _searchApp.longitude
-							  + '&key=SDxukVh1qhhHWpqMypU2G10gbnNbJjdi';
+							  + '&key=TOMTOM_KEY';
 				
 				// requête asynchrone vers le point terminal de l'API Tomtom
 				$.getJSON(apiUrl, function(data){
